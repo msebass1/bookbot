@@ -1,4 +1,5 @@
-symbols = list("$@%/_1234567890-=+&^%@!}|{,.><,:;?# *][()\n'"+'"')
+import sys
+
 defaultbook = "./books/frankenstein.txt"
 def words_count (str):
 
@@ -8,7 +9,7 @@ def character_count (str):
     dict = {}
     parsed_str = str.lower()
     for i in parsed_str:
-        if i not in symbols:
+        if i.isalpha():
             if i in dict :
                 dict[i] += 1
             else:
@@ -31,20 +32,19 @@ def print_list(list):
         print(f'The "{element["char"]}" character was found {element["value"]}')
 
 def main():
-    with open(defaultbook) as f:
+    book = defaultbook
+    if len(sys.argv)>1:
+        book = sys.argv[1]
+
+    with open(book) as f:
         file_contents = f.read()
         number_of_words = words_count(file_contents)
         dict_of_characters = character_count(file_contents)
 
-        print(f'--- Report of the book {defaultbook} ---')
+        print(f'--- Report of the book {book} ---')
         print(f'{number_of_words} words found in the document\n')
         print_list(dict_to_sorted_list(dict_of_characters))
         print('\n --- end of report ---')
 
-
 main()
 
-# things to add.
-#
-# - path to x book as parameter
-# - --most-found and --aphabethic-order
